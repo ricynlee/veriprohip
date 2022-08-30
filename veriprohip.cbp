@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="veriprohip" />
+		<Option pch_mode="2" />
+		<Option compiler="clang" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/veriprohip" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="$(PROJECT_DIR)/src/io" />
+					<Add directory="$(PROJECT_DIR)/src/file" />
+					<Add directory="$(PROJECT_DIR)/src/term" />
+					<Add directory="$(PROJECT_DIR)/src/parser" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/veriprohip" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="src/file/file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/file/file.h" />
+		<Unit filename="src/io/cqif.hpp" />
+		<Unit filename="src/io/fcqif.hpp" />
+		<Unit filename="src/io/fcqif_cpp.cpp" />
+		<Unit filename="src/io/fcqif_cpp.hpp" />
+		<Unit filename="src/io/fcqif_posix.cpp" />
+		<Unit filename="src/io/fcqif_posix.hpp" />
+		<Unit filename="src/io/scqif.hpp" />
+		<Unit filename="src/io/scqif_chararray.cpp" />
+		<Unit filename="src/io/scqif_chararray.hpp" />
+		<Unit filename="src/io/scqif_string.cpp" />
+		<Unit filename="src/io/scqif_string.hpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/parser/vlex.cpp" />
+		<Unit filename="src/parser/vlex.hpp" />
+		<Unit filename="src/parser/vprep.cpp" />
+		<Unit filename="src/parser/vprep.hpp" />
+		<Unit filename="src/term/term.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/term/term.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
