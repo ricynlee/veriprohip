@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-#ifndef H_TERM_H
-#define H_TERM_H
+#ifndef _H_TERM_H
+#define _H_TERM_H
 
 //
 // Type & constant definitions
@@ -131,4 +131,4 @@ extern int  get_key(void);
 extern int  put_cursor(int x, int y);
 extern int set_cursor_visibility(bool visible);
 
-#endif  // H_TERM_H
+#endif  // _H_TERM_H

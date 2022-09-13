@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include "cqif.hpp"
 
 namespace veriprohip {
     typedef enum {
@@ -20,15 +21,7 @@ namespace veriprohip {
         vlex_elem_type_t type;
     };
 
-#if defined(VLEX_HANDLING_SWITCH_SUPPORT)
-    typedef enum {
-        BY_FILE,
-        BY_CODE,
-    } vlex_handling_t;
-    extern int vlex(const std::string& verilog, std::list<vlex_elem>& elems, vlex_handling_t handling=BY_FILE);
-#else
-    extern int vlex(const std::string& verilog, std::list<vlex_elem>& elems);
-#endif
+    extern int vlex_trivial(icqif& verilog, vlex_elem& elem, bool append=false);
 }
 
 #endif // VLEX_H

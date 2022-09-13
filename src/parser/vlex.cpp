@@ -4,13 +4,16 @@
 #include "vlex.hpp"
 #include "cqif.hpp"
 #include "fcqif.hpp"
-#include "scqif.hpp"
 
 namespace veriprohip {
     using namespace std;
 
-    static int vlex_engine(icqif& verilog, list<vlex_elem>& elems) {
+    int vlex_trivial(icqif& verilog, vlex_elem& elem, bool append) { // derive next elem from icqif
         int status = (-1);
+
+        if (!append) {
+            elem.clear();
+        }
 
         static enum {
             VLEX_STATE_IDLE,
@@ -45,9 +48,7 @@ namespace veriprohip {
             VLEX_STATE_ERROR,
         } fsm = VLEX_STATE_IDLE;
 
-        elems.clear();
-
-        #define take() do { elems.back().string::push_back(verilog.top()); verilog.pop(); } while(0)
+        auto take = [&]() { elem.string::push_back(verilog.top()); verilog.pop(); };
 
         while (true) {
             if (fsm == VLEX_STATE_IDLE) {
@@ -55,8 +56,6 @@ namespace veriprohip {
                     fsm = VLEX_STATE_END;
                     continue;
                 }
-
-                elems.emplace_back();
 
                 if (isspace(verilog.top())) {
                     take();
@@ -192,11 +191,12 @@ namespace veriprohip {
                     continue;
                 }
             } else if (fsm == VLEX_STATE_NUMBER_END) {
-                elems.back().type = NUMBER;
+                elem.type = NUMBER;
                 fsm = VLEX_STATE_IDLE;
-                continue;
+                status = 0; // mark success
+                break;
             } else if (fsm == VLEX_STATE_WORD) {
-                if (isalpha(verilog.top()) || verilog.top()=='_') {
+                if (isalnum(verilog.top()) || verilog.top()=='_') {
                     take();
                     continue;
                 } else {
@@ -204,9 +204,10 @@ namespace veriprohip {
                     continue;
                 }
             } else if (fsm == VLEX_STATE_WORD_END) {
-                elems.back().type = WORD;
+                elem.type = WORD;
                 fsm = VLEX_STATE_IDLE;
-                continue;
+                status = 0; // mark success
+                break;
             } else if (fsm == VLEX_STATE_TEXT_GOT_OPEN_QUOTATION) {
                 if (verilog.top()=='\\') {
                     take();
@@ -234,9 +235,10 @@ namespace veriprohip {
                     continue;
                 }
             } else if (fsm == VLEX_STATE_TEXT_END) {
-                elems.back().type = TEXT;
+                elem.type = TEXT;
                 fsm = VLEX_STATE_IDLE;
-                continue;
+                status = 0; // mark success
+                break;
             } else if (fsm == VLEX_STATE_SPACE) {
                 if (isspace(verilog.top())) {
                     take();
@@ -246,9 +248,10 @@ namespace veriprohip {
                     continue;
                 }
             } else if (fsm == VLEX_STATE_SPACE_END) {
-                elems.back().type = SPACE;
+                elem.type = SPACE;
                 fsm = VLEX_STATE_IDLE;
-                continue;
+                status = 0; // mark success
+                break;
             } else if (fsm == VLEX_STATE_UNDETERMINED_SLASH) {
                 if (verilog.top()=='/') { // line comment
                     take();
@@ -293,9 +296,10 @@ namespace veriprohip {
                     continue;
                 }
             } else if (fsm == VLEX_STATE_COMMENT_END) {
-                elems.back().type = COMMENT;
+                elem.type = COMMENT;
                 fsm = VLEX_STATE_IDLE;
-                continue;
+                status = 0; // mark success
+                break;
             } else if (fsm == VLEX_STATE_OPERATOR_GOT_LT) {
                 if (verilog.top()=='=') { // <=
                     take();
@@ -360,36 +364,19 @@ namespace veriprohip {
                     continue;
                 }
             } else if (fsm == VLEX_STATE_OPERATOR_END) {
-                elems.back().type = OPERATOR;
+                elem.type = OPERATOR;
                 fsm = VLEX_STATE_IDLE;
-                continue;
+                status = 0; // mark success
+                break;
             } else if (fsm == VLEX_STATE_END) {
                 status = 0; // mark success
                 break;
             } else /* VLEX_STATE_ERROR */ {
-                elems.pop_back();
-                // status = (-1);
+                status = (-1);
                 break;
             }
         }
 
         return status;
     }
-
-#if defined(VLEX_HANDLING_SWITCH_SUPPORT)
-    int vlex(const string& verilog, list<vlex_elem>& elems, vlex_handling_t handling /* =BY_FILE */) {
-        if (handling == BY_CODE) {
-            iscqif vcode(verilog);
-            return vlex_engine(vcode, elems);
-        } else /* handling == BY_FILE */ {
-            ifcqif vfile(verilog);
-            return vlex_engine(vfile, elems);
-        }
-    }
-#else
-    int vlex(const string& verilog, list<vlex_elem>& elems) {
-        ifcqif vfile(verilog);
-        return vlex_engine(vfile, elems);
-    }
-#endif
 }

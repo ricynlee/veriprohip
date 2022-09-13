@@ -5,16 +5,16 @@
 
 class icqif {
     public:
-        virtual void pop(void) {} // move to next char
-        virtual char top(void) {} // peek current char
-        virtual bool dry(void) {} // queue's now empty
+        virtual void pop(void)=0; // move to next char
+        virtual char top(void)=0; // peek current char
+        virtual bool dry(void)=0; // queue's now empty
     public:
         virtual ~icqif() {}
 };
 
 class ocqif {
     public:
-        virtual void push(char c) {} // write char
+        virtual void push(char c)=0; // write char
     public:
         virtual ~ocqif() {}
 };

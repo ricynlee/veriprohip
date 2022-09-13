@@ -1,11 +1,39 @@
-#ifndef FCQIF_H
-#define FCQIF_H
+#ifndef FCQIF_CPP_H
+#define FCQIF_CPP_H
 
-#include "fcqif_posix.hpp"
-#include "fcqif_cpp.hpp"
+#include <string>
+#include <fstream>
+#include "cqif.hpp"
 
-// file input/output char queue interface
-typedef ifcqif_posix ifcqif;
-typedef ofcqif_cpp   ofcqif;
+class ifcqif: public icqif {
+    private:
+        std::ifstream ifs;
+        bool use_cin;
+        char buf;
+    public:
+        void open(const std::string& file_name);
+        void close(void);
+    public:
+        void pop(void);
+        char top(void);
+        bool dry(void);
+    public:
+        ifcqif(const std::string& file_name);
+        ~ifcqif();
+};
 
-#endif // FCQIF_H
+class ofcqif: public ocqif {
+private:
+    std::ofstream ofs;
+    bool use_cout;
+public:
+    void open(const std::string& file_name);
+    void close(void);
+public:
+    void push(char c);
+public:
+    ofcqif(const std::string& file_name);
+    ~ofcqif();
+};
+
+#endif // FCQIF_CPP_H

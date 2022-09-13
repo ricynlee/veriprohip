@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-#ifndef H_FILE_H
-#define H_FILE_H
+#ifndef _H_FILE_H
+#define _H_FILE_H
 
 # include <unistd.h>
 # include <fcntl.h>
@@ -64,4 +64,4 @@ extern int access_test(const char* path);
 extern int truncate_WIN32_API(const char* path, off_t length);
 # endif
 
-#endif // H_FILE_H
+#endif // _H_FILE_H

@@ -1,3 +1,10 @@
-bin
-obj
-veriprohip.layout
+libh/prj_libh/bin
+libh/prj_libh/obj
+libh/prj_libh/libh.layout
+prj/Debug
+prj/ipch
+prj/*.sln
+prj/*.sdf
+prj/*.suo
+prj/*.vcxproj.filters
+prj/*.vcxproj.user

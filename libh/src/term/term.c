@@ -204,7 +204,6 @@ void printf_color(int fg, int bg, const char* fmt, ...){
 void clear_term(void){
 #if defined(_WIN32) && (!defined(_WIN32_PREFER_ANSI_ESC_SEQ) || !_WIN32_PREFER_ANSI_ESC_SEQ)
     COORD   coordScreen = { 0, 0 };
-    BOOL    bSuccess = 1;
     DWORD   cCharsWritten;
     DWORD   dwConSize;
     HANDLE  hConsole;
