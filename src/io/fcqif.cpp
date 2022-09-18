@@ -67,6 +67,9 @@ void ifcqif::open(const string& file_name) {
     }
 
     ifs.open(file_name);
+    if (!dry()) {
+        pop();
+    }
 }
 
 void ifcqif::close(void) {

@@ -8,14 +8,10 @@
 namespace veriprohip {
     using namespace std;
 
-    int vlex_trivial(icqif& verilog, vlex_elem& elem, bool append) { // derive next elem from icqif
+    int vlex_derive(icqif& verilog, vlex_elem& elem) { // derive next elem from icqif
         int status = (-1);
 
-        if (!append) {
-            elem.clear();
-        }
-
-        static enum {
+        enum {
             VLEX_STATE_IDLE,
             VLEX_STATE_SPACE,
             VLEX_STATE_SPACE_END,
@@ -47,6 +43,8 @@ namespace veriprohip {
             VLEX_STATE_END,
             VLEX_STATE_ERROR,
         } fsm = VLEX_STATE_IDLE;
+
+        elem.clear();
 
         auto take = [&]() { elem.string::push_back(verilog.top()); verilog.pop(); };
 

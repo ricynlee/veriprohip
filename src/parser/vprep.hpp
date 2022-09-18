@@ -1,7 +1,7 @@
 #ifndef VPREP_H
 #define VPREP_H
 
-#include <utility>
+#include <map>
 #include <list>
 #include <string>
 #include <stack>
@@ -12,18 +12,18 @@
 namespace veriprohip {
     class vprep_icqif: public icqif {
     private:
-        std::list<std::pair<std::string, std::string> > defs;
+        std::map<std::string, std::string> defs;
         std::list<std::string> dirs;
-        std::stack<ifcqif> ifs;
+        std::stack<ifcqif> ifstk;
         std::deque<char> q;
-        bool working;
     public:
-        void preproc(
+        void prep( // prepare for preprocessing
             const std::string& vfile,
             const std::list<std::pair<std::string, std::string> >& predefs,
             const std::list<std::string>& incdirs
         );
-        void preproc(const std::string& vfile);
+        void prep(const std::string& vfile);
+        void parse(void); // process `
         void quit(void);
     public:
         vprep_icqif(

@@ -1,9 +1,7 @@
 #include <iostream>
-#include "fcqif.hpp"
-#include "term.hpp"
-
+#include "vprep.hpp"
 using namespace std;
-// using namespace veriprohip;
+using namespace veriprohip;
 
 //const char* vlex_elem_type_name(vlex_elem_type_t type) {
 //    switch (type) {
@@ -26,7 +24,11 @@ using namespace std;
 
 int main()
 {
-    clear_term();
-    cout << "Hello" << endl;
+    vprep_icqif v("d:\\tmp.v");
+    while (!v.dry()) {
+        cout << v.top();
+        v.pop();
+    }
+    cout.flush();
     return 0;
 }

@@ -21,7 +21,7 @@ namespace veriprohip {
         vlex_elem_type_t type;
     };
 
-    extern int vlex_trivial(icqif& verilog, vlex_elem& elem, bool append=false);
+    extern int vlex_derive(icqif& verilog, vlex_elem& elem);
 }
 
 #endif // VLEX_H

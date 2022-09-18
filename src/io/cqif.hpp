@@ -2,6 +2,7 @@
 #define CQIF_H
 
 // input/output char queue interface definition
+// icqif should be a first-char-goes-through queue: you can use top() prior to pop()
 
 class icqif {
     public:
