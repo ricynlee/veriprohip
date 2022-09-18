@@ -32,10 +32,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../src/file/file.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../src/file/file.h" />
 		<Unit filename="../src/term/term.c">
 			<Option compilerVar="CC" />
 		</Unit>
