@@ -109,6 +109,7 @@ namespace veriprohip {
                     continue;
                 } else {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Illegal character";
                     continue;
                 }
             } else if (fsm == VLEX_STATE_NUMBER_GOT_LEADING_DIGITS) {
@@ -122,6 +123,7 @@ namespace veriprohip {
                     continue;
                 } else if (isalnum(verilog.top())) {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Illegal character in inferred number";
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -146,6 +148,7 @@ namespace veriprohip {
                     continue;
                 } else {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Illegal radix mark character in inferred number";
                     continue;
                 }
             } else if (fsm == VLEX_STATE_NUMBER_GOT_RADIX_B) {
@@ -155,6 +158,7 @@ namespace veriprohip {
                     continue;
                 } else if (isalnum(verilog.top()) || verilog.top()=='\'') {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Illegal character in inferred binary number";
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -163,14 +167,16 @@ namespace veriprohip {
             } else if (fsm == VLEX_STATE_NUMBER_GOT_RADIX_O) {
                 // TODO: not implemented
                 fsm = VLEX_STATE_NUMBER_END;
+                throw "No support of inferred octal number";
                 continue;
             } else if (fsm == VLEX_STATE_NUMBER_GOT_RADIX_D) {
                 if (isdigit(verilog.top()) || verilog.top()=='_' || tolower(verilog.top())=='x' || tolower(verilog.top())=='z') {
                     // TODO: what about 10_000_?
                     take();
                     continue;
-                } else if (isalnum(verilog.top()) || verilog.top()=='\'') {
+                } else if (isalpha(verilog.top()) || verilog.top()=='\'') {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Illegal character in inferred decimal number";
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -181,8 +187,9 @@ namespace veriprohip {
                     // TODO: what about 10_000_?
                     take();
                     continue;
-                } else if (isalnum(verilog.top()) || verilog.top()=='\'') {
+                } else if (isalpha(verilog.top()) || verilog.top()=='\'') {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Illegal character in inferred hexadecimal number";
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -213,6 +220,7 @@ namespace veriprohip {
                     continue;
                 } else if (verilog.top()=='\r' || verilog.top()=='\n') {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Line end in inferred quoted text";
                     continue;
                 } else if (verilog.top()=='\"') { // closed quotation
                     take();
@@ -225,6 +233,7 @@ namespace veriprohip {
             } else if (fsm == VLEX_STATE_TEXT_GOT_ESCAPE) {
                 if (verilog.top()=='\r' || verilog.top()=='\n') {
                     fsm = VLEX_STATE_ERROR;
+                    throw "Line end in escape sequence of inferred quoted text";
                     continue;
                 } else {
                     // TODO: escape sequence validity check

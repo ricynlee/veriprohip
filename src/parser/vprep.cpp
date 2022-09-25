@@ -55,6 +55,7 @@ namespace veriprohip {
             } while (elem.type==SPACE || elem.type==COMMENT);
 
             if (elem.type!=WORD) {
+                throw "Illegal use of `define";
                 return;
             }
 
@@ -88,6 +89,7 @@ namespace veriprohip {
             } while (elem.type==SPACE || elem.type==COMMENT);
 
             if (elem.type!=WORD) {
+                throw "Illegal use of `ifdef/`ifndef";
                 return;
             }
 
@@ -141,6 +143,7 @@ namespace veriprohip {
             } while (elem.type==SPACE || elem.type==COMMENT);
 
             if (elem.type!=TEXT) {
+                throw "Illegal use of `include";
                 return;
             }
 
@@ -161,6 +164,7 @@ namespace veriprohip {
             }
 
             if (!found) {
+                throw "Cannot local included file";
                 return;
             }
 
