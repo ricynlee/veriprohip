@@ -144,6 +144,26 @@ namespace veriprohip {
                 return;
             }
 
+            string hdr_name(elem.substr(1u, elem.length()-2)); // strip open/closed quotes
+            string& hdr_path = hdr_name;
+            bool found = false;
+
+            auto file_exists = [&](const string& path)->bool {
+                return ifstream(path.c_str()).good();
+            };
+
+            for (list<string>::const_iterator cit = dirs.cbegin(); cit!=dirs.cend(); cit++) {
+                if (file_exists(*cit + hdr_name)) {
+                    hdr_path.assign(*cit + hdr_name);
+                    found = true;
+                    ifstk.emplace(hdr_path);
+                }
+            }
+
+            if (!found) {
+                return;
+            }
+
             q.clear();
         } else if (defs.count(elem)) {
             q.clear();
@@ -181,10 +201,10 @@ namespace veriprohip {
 
     void vprep_icqif::prep(
         const string& vfile,
-        const list<pair<string, string> >& predefs,
+        const map<string, string>& predefs,
         const list<string>& incdirs
     ) {
-        for (list<pair<string, string> >::const_iterator it=predefs.cbegin(); it!=predefs.cend(); it++) {
+        for (map<string, string>::const_iterator it=predefs.cbegin(); it!=predefs.cend(); it++) {
             defs[it->first] = it->second;
         }
 
@@ -206,7 +226,7 @@ namespace veriprohip {
 
     vprep_icqif::vprep_icqif(
         const string& vfile,
-        const list<pair<string, string> >& predefs,
+        const map<string, string>& predefs,
         const list<string>& incdirs
     ) {
         prep(vfile, predefs, incdirs);

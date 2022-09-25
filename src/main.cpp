@@ -1,5 +1,6 @@
 #include <iostream>
 #include "vprep.hpp"
+#include <conio.h>
 using namespace std;
 using namespace veriprohip;
 
@@ -24,11 +25,15 @@ using namespace veriprohip;
 
 int main()
 {
-    vprep_icqif v("d:\\tmp.v");
+    map<string, string> predefs;
+    list<string> incdirs(1, "d:\\");
+
+    vprep_icqif v("d:\\tmp.v", predefs, incdirs);
     while (!v.dry()) {
         cout << v.top();
         v.pop();
     }
     cout.flush();
+    getch(); // wait for input
     return 0;
 }

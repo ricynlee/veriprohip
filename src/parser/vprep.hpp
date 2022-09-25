@@ -19,7 +19,7 @@ namespace veriprohip {
     public:
         void prep( // prepare for preprocessing
             const std::string& vfile,
-            const std::list<std::pair<std::string, std::string> >& predefs,
+            const std::map<std::string, std::string>& predefs,
             const std::list<std::string>& incdirs
         );
         void prep(const std::string& vfile);
@@ -28,7 +28,7 @@ namespace veriprohip {
     public:
         vprep_icqif(
             const std::string& vfile,
-            const std::list<std::pair<std::string, std::string> >& predefs,
+            const std::map<std::string, std::string>& predefs,
             const std::list<std::string>& incdirs
         );
         vprep_icqif(const std::string& vfile);
