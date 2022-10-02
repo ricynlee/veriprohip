@@ -199,6 +199,49 @@ void printf_color(int fg, int bg, const char* fmt, ...){
 }
 
 // *********************************************************************************************************************** //
+void err_printf_color(int fg, int bg, const char* fmt, ...){
+#if defined(_WIN32) && (!defined(_WIN32_PREFER_ANSI_ESC_SEQ) || !_WIN32_PREFER_ANSI_ESC_SEQ)
+# define FC_MASK 0x0000000F
+# define BC_MASK 0x000000F0
+
+    HANDLE  hStderr;
+    WORD    wOldColorAttrs;
+    BOOL    bSuccess;
+    CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+    hStderr=GetStdHandle(STD_ERROR_HANDLE);
+    if(INVALID_HANDLE_VALUE==hStderr){
+        bSuccess=FALSE;
+    }else{
+        bSuccess=GetConsoleScreenBufferInfo(hStderr, &csbiInfo);
+    }
+    if(bSuccess){
+        wOldColorAttrs = csbiInfo.wAttributes;
+        if(FC_DEFAULT==fg)
+            fg=wOldColorAttrs&FC_MASK;
+        if(BC_DEFAULT==bg)
+            bg=wOldColorAttrs&BC_MASK;
+        SetConsoleTextAttribute(hStderr, fg|bg);
+    }
+
+    va_list args;
+    va_start(args,fmt);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+
+    if(bSuccess){
+        SetConsoleTextAttribute(hStderr, wOldColorAttrs);
+    }
+#elif defined(__linux__) || (defined(_WIN32_PREFER_ANSI_ESC_SEQ) && _WIN32_PREFER_ANSI_ESC_SEQ)
+# ifdef _WIN32
+    enable_esc_seq_support();
+# endif
+
+    // TODO: implementation with esc sequence
+
+#endif
+}
+
+// *********************************************************************************************************************** //
 // Clear current term/console, and move cursor to upper left corner
 // Returned 0 for success, -1 for failure
 void clear_term(void){

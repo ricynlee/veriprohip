@@ -127,10 +127,11 @@ typedef enum{
 extern "C" {
     extern int  get_term_size(int* ref_w, int* ref_h);
     extern void printf_color(int fg, int bg, const char* fmt, ...);
+    extern void err_printf_color(int fg, int bg, const char* fmt, ...);
     extern void clear_term(void);
     extern int  get_key(void);
     extern int  put_cursor(int x, int y);
-    extern int set_cursor_visibility(bool visible);
+    extern int  set_cursor_visibility(bool visible);
 }
 
 #endif  // _H_TERM_H

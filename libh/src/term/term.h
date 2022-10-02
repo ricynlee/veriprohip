@@ -126,6 +126,7 @@ typedef enum{
 //
 extern int  get_term_size(int* ref_w, int* ref_h);
 extern void printf_color(int fg, int bg, const char* fmt, ...);
+extern void err_printf_color(int fg, int bg, const char* fmt, ...);
 extern void clear_term(void);
 extern int  get_key(void);
 extern int  put_cursor(int x, int y);
