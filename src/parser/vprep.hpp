@@ -24,16 +24,17 @@ namespace veriprohip {
         std::list<std::string> dirs;
         std::deque<ifcqif_with_path> ifstk;
         std::deque<char> q;
-    public:
+    private:
+        void parse(void); // process `
+    public: // unique methods
         void prep( // prepare for preprocessing
             const std::string& vfile,
             const std::map<std::string, std::string>& predefs,
             const std::list<std::string>& incdirs
         );
         void prep(const std::string& vfile);
-        void parse(void); // process `
         void quit(void);
-    public:
+    public: // constructors & deconstructors
         vprep_icqif(
             const std::string& vfile,
             const std::map<std::string, std::string>& predefs,
@@ -42,7 +43,7 @@ namespace veriprohip {
         vprep_icqif(const std::string& vfile);
         vprep_icqif();
         ~vprep_icqif();
-    public:
+    public: // inherited methods
         void pop(void);
         char top(void);
         bool dry(void);
