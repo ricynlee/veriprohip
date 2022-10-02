@@ -4,6 +4,7 @@
 #include "vlex.hpp"
 #include "cqif.hpp"
 #include "fcqif.hpp"
+#include "trace.hpp"
 
 namespace veriprohip {
     using namespace std;
@@ -109,7 +110,7 @@ namespace veriprohip {
                     continue;
                 } else {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Illegal character";
+                    trace_error("Illegal character");
                     continue;
                 }
             } else if (fsm == VLEX_STATE_NUMBER_GOT_LEADING_DIGITS) {
@@ -123,7 +124,7 @@ namespace veriprohip {
                     continue;
                 } else if (isalnum(verilog.top())) {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Illegal character in inferred number";
+                    trace_error("Illegal character in inferred number");
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -148,7 +149,7 @@ namespace veriprohip {
                     continue;
                 } else {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Illegal radix mark character in inferred number";
+                    trace_error("Illegal radix mark character in inferred number");
                     continue;
                 }
             } else if (fsm == VLEX_STATE_NUMBER_GOT_RADIX_B) {
@@ -158,7 +159,7 @@ namespace veriprohip {
                     continue;
                 } else if (isalnum(verilog.top()) || verilog.top()=='\'') {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Illegal character in inferred binary number";
+                    trace_error("Illegal character in inferred binary number");
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -167,7 +168,7 @@ namespace veriprohip {
             } else if (fsm == VLEX_STATE_NUMBER_GOT_RADIX_O) {
                 // TODO: not implemented
                 fsm = VLEX_STATE_NUMBER_END;
-                throw "No support of inferred octal number";
+                trace_error("No support of inferred octal number");
                 continue;
             } else if (fsm == VLEX_STATE_NUMBER_GOT_RADIX_D) {
                 if (isdigit(verilog.top()) || verilog.top()=='_' || tolower(verilog.top())=='x' || tolower(verilog.top())=='z') {
@@ -176,7 +177,7 @@ namespace veriprohip {
                     continue;
                 } else if (isalpha(verilog.top()) || verilog.top()=='\'') {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Illegal character in inferred decimal number";
+                    trace_error("Illegal character in inferred decimal number");
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -189,7 +190,7 @@ namespace veriprohip {
                     continue;
                 } else if (isalpha(verilog.top()) || verilog.top()=='\'') {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Illegal character in inferred hexadecimal number";
+                    trace_error("Illegal character in inferred hexadecimal number");
                     continue;
                 } else {
                     fsm = VLEX_STATE_NUMBER_END;
@@ -220,7 +221,7 @@ namespace veriprohip {
                     continue;
                 } else if (verilog.top()=='\r' || verilog.top()=='\n') {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Line end in inferred quoted text";
+                    trace_error("Line end in inferred quoted text");
                     continue;
                 } else if (verilog.top()=='\"') { // closed quotation
                     take();
@@ -233,7 +234,7 @@ namespace veriprohip {
             } else if (fsm == VLEX_STATE_TEXT_GOT_ESCAPE) {
                 if (verilog.top()=='\r' || verilog.top()=='\n') {
                     fsm = VLEX_STATE_ERROR;
-                    throw "Line end in escape sequence of inferred quoted text";
+                    trace_error("Line end in escape sequence of inferred quoted text");
                     continue;
                 } else {
                     // TODO: escape sequence validity check

@@ -8,6 +8,7 @@
 #include "vprep.hpp"
 #include "fcqif.hpp"
 #include <windows.h>
+#include "trace.hpp"
 
 namespace veriprohip {
     using namespace std;
@@ -56,7 +57,7 @@ namespace veriprohip {
             } while (elem.type==SPACE || elem.type==COMMENT);
 
             if (elem.type!=WORD) {
-                throw "Illegal use of `define";
+                trace_error("Illegal use of `define");
                 return;
             }
 
@@ -98,7 +99,7 @@ namespace veriprohip {
             } while (elem.type==SPACE || elem.type==COMMENT);
 
             if (elem.type!=WORD) {
-                throw "Illegal use of `ifdef/`ifndef";
+                trace_error("Illegal use of `ifdef/`ifndef");
                 return;
             }
 
@@ -152,7 +153,7 @@ namespace veriprohip {
             } while (elem.type==SPACE || elem.type==COMMENT);
 
             if (elem.type!=TEXT) {
-                throw "Illegal use of `include";
+                trace_error("Illegal use of `include");
                 return;
             }
 
@@ -173,12 +174,12 @@ namespace veriprohip {
             }
 
             if (!found) {
-                throw "Cannot locate included file";
+                trace_error("Cannot locate included file");
                 return;
             } else {
                 for (deque<ifcqif_with_path>::const_iterator cit=ifstk.cbegin(); cit!=ifstk.cend(); cit++) {
                     if (cit->get_file_path()==hdr_path) { // loop inclusion
-                        throw "Loop inclusion";
+                        trace_error("Inclusion loop");
                         return;
                     }
                 }

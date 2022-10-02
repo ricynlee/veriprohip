@@ -38,11 +38,6 @@ int main()
     }
     cout.flush();
 
-    trace_info("info");
-    trace_warn("warning");
-    trace_error("error");
-    trace_fatal("fatal");
-
     getch(); // wait for input
     return 0;
 }
