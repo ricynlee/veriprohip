@@ -1,6 +1,9 @@
 #include <iostream>
 #include "vprep.hpp"
 #include <conio.h>
+
+#include "trace.hpp"
+
 using namespace std;
 using namespace veriprohip;
 
@@ -34,6 +37,12 @@ int main()
         v.pop();
     }
     cout.flush();
+
+    trace_info("info");
+    trace_warn("warning");
+    trace_error("error");
+    trace_fatal("fatal");
+
     getch(); // wait for input
     return 0;
 }

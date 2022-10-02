@@ -63,22 +63,30 @@ namespace veriprohip {
             defs[elem] = "";
             map<string, string>::iterator it = defs.find(elem);
 
-            do {
-                vlex_derive(ifstk.back(), elem);
-                str_into_q(elem);
-            } while (elem.type==SPACE || elem.type==COMMENT);
-
-            it->second = elem;
+            bool def_as = true; // has a defined-as body
 
             do {
                 vlex_derive(ifstk.back(), elem);
                 str_into_q(elem);
-                if (elem.find_first_of("\r\n")==string::npos) { // not reaching newline
-                    it->second.append(elem);
-                } else {
+                if (elem.find_first_of("\r\n")!=string::npos) { // reaching newline: verilog does not support multi-line def
+                    def_as = false;
                     break;
                 }
-            } while (elem.type!=NONE);
+            } while (elem.type==SPACE || elem.type==COMMENT);
+
+            if (def_as) {
+                it->second = elem;
+
+                do {
+                    vlex_derive(ifstk.back(), elem);
+                    str_into_q(elem);
+                    if (elem.find_first_of("\r\n")==string::npos) { // not reaching newline, verilog does not support multi-line def
+                        it->second.append(elem);
+                    } else {
+                        break;
+                    }
+                } while (elem.type!=NONE);
+            }
 
             q.clear();
         } else if (elem=="ifdef" || elem=="ifndef") {

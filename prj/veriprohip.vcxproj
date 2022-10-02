@@ -39,7 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\..\src\parser;$(ProjectDir)\..\src\io;$(ProjectDir)\..\libh\hpp;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\..\src\parser;$(ProjectDir)\..\src\io;$(ProjectDir)\..\libh\hpp;$(ProjectDir)\..\src\trace;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -81,6 +81,7 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\parser\vlex.cpp" />
     <ClCompile Include="..\src\parser\vprep.cpp" />
+    <ClCompile Include="..\src\trace\trace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libh\hpp\term.hpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="..\src\io\fcqif.hpp" />
     <ClInclude Include="..\src\parser\vlex.hpp" />
     <ClInclude Include="..\src\parser\vprep.hpp" />
+    <ClInclude Include="..\src\trace\trace.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

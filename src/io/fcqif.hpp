@@ -1,5 +1,5 @@
-#ifndef FCQIF_CPP_H
-#define FCQIF_CPP_H
+#ifndef FCQIF_H
+#define FCQIF_H
 
 #include <string>
 #include <fstream>
@@ -37,4 +37,4 @@ public:
     ~ofcqif();
 };
 
-#endif // FCQIF_CPP_H
+#endif // FCQIF_H
