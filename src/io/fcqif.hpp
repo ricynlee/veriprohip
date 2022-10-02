@@ -11,14 +11,15 @@ class ifcqif: public icqif {
         bool use_cin;
         char buf;
     public:
-        void open(const std::string& file_name);
+        void open(const std::string& file_path);
         void close(void);
     public:
         void pop(void);
         char top(void);
         bool dry(void);
     public:
-        ifcqif(const std::string& file_name);
+        ifcqif(const std::string& file_path);
+        ifcqif();
         ~ifcqif();
 };
 
@@ -27,12 +28,12 @@ private:
     std::ofstream ofs;
     bool use_cout;
 public:
-    void open(const std::string& file_name);
+    void open(const std::string& file_path);
     void close(void);
 public:
     void push(char c);
 public:
-    ofcqif(const std::string& file_name);
+    ofcqif(const std::string& file_path);
     ~ofcqif();
 };
 

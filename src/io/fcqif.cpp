@@ -5,24 +5,24 @@
 
 using namespace std;
 
-void ofcqif::open(const string& file_name) {
+void ofcqif::open(const string& file_path) {
     if (use_cout || ofs.is_open()) { // already open
         return;
     }
 
-    if (file_name.length()==0) {
+    if (file_path.length()==0) {
         use_cout = true;
         return;
     }
 
     do {
         // file already exists - do not overwrite
-        ifstream tif(file_name);
+        ifstream tif(file_path);
         if (tif.is_open())
             return;
     } while (0);
 
-    ofs.open(file_name, ofstream::out);
+    ofs.open(file_path, ofstream::out);
 }
 
 void ofcqif::close(void) {
@@ -46,8 +46,8 @@ void ofcqif::push(char c) {
     }
 }
 
-ofcqif::ofcqif(const std::string& file_name): use_cout(false) {
-    open(file_name);
+ofcqif::ofcqif(const std::string& file_path): use_cout(false) {
+    open(file_path);
 }
 
 ofcqif::~ofcqif() {
@@ -56,17 +56,17 @@ ofcqif::~ofcqif() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ifcqif::open(const string& file_name) {
+void ifcqif::open(const string& file_path) {
     if (use_cin || ifs.is_open()) { // already open
         return;
     }
 
-    if (file_name.length()==0) {
+    if (file_path.length()==0) {
         use_cin = true;
         return;
     }
 
-    ifs.open(file_name);
+    ifs.open(file_path);
     if (!dry()) {
         pop();
     }
@@ -103,8 +103,12 @@ bool ifcqif::dry(void) {
     return (!use_cin && (!ifs.is_open() || ifs.eof()));
 }
 
-ifcqif::ifcqif(const string& file_name): use_cin(false) {
-    open(file_name);
+ifcqif::ifcqif(const string& file_path): use_cin(false) {
+    open(file_path);
+}
+
+ifcqif::ifcqif(): use_cin(false) {
+    // nothing to do
 }
 
 ifcqif::~ifcqif() {

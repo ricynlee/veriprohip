@@ -4,17 +4,25 @@
 #include <map>
 #include <list>
 #include <string>
-#include <stack>
 #include <deque>
 #include "cqif.hpp"
 #include "fcqif.hpp"
 
 namespace veriprohip {
+    class ifcqif_with_path: public ifcqif {
+    private:
+        std::string abs_path;
+    public:
+        void open(const std::string& file_path);
+        ifcqif_with_path(const std::string& file_path);
+        const std::string& get_file_path(void) const;
+    };
+
     class vprep_icqif: public icqif {
     private:
         std::map<std::string, std::string> defs;
         std::list<std::string> dirs;
-        std::stack<ifcqif> ifstk;
+        std::deque<ifcqif_with_path> ifstk;
         std::deque<char> q;
     public:
         void prep( // prepare for preprocessing
